@@ -1,0 +1,14 @@
+/home/misa/Documents/hngiap/cache-test/cachetest_backend/bin/Debug/netcoreapp2.2/cachetest_backend.deps.json
+/home/misa/Documents/hngiap/cache-test/cachetest_backend/bin/Debug/netcoreapp2.2/cachetest_backend.runtimeconfig.json
+/home/misa/Documents/hngiap/cache-test/cachetest_backend/bin/Debug/netcoreapp2.2/cachetest_backend.runtimeconfig.dev.json
+/home/misa/Documents/hngiap/cache-test/cachetest_backend/bin/Debug/netcoreapp2.2/cachetest_backend.dll
+/home/misa/Documents/hngiap/cache-test/cachetest_backend/bin/Debug/netcoreapp2.2/cachetest_backend.pdb
+/home/misa/Documents/hngiap/cache-test/cachetest_backend/obj/Debug/netcoreapp2.2/cachetest_backend.csprojAssemblyReference.cache
+/home/misa/Documents/hngiap/cache-test/cachetest_backend/obj/Debug/netcoreapp2.2/cachetest_backend.csproj.CoreCompileInputs.cache
+/home/misa/Documents/hngiap/cache-test/cachetest_backend/obj/Debug/netcoreapp2.2/cachetest_backend.RazorAssemblyInfo.cache
+/home/misa/Documents/hngiap/cache-test/cachetest_backend/obj/Debug/netcoreapp2.2/cachetest_backend.RazorAssemblyInfo.cs
+/home/misa/Documents/hngiap/cache-test/cachetest_backend/obj/Debug/netcoreapp2.2/cachetest_backend.AssemblyInfoInputs.cache
+/home/misa/Documents/hngiap/cache-test/cachetest_backend/obj/Debug/netcoreapp2.2/cachetest_backend.AssemblyInfo.cs
+/home/misa/Documents/hngiap/cache-test/cachetest_backend/obj/Debug/netcoreapp2.2/cachetest_backend.RazorTargetAssemblyInfo.cache
+/home/misa/Documents/hngiap/cache-test/cachetest_backend/obj/Debug/netcoreapp2.2/cachetest_backend.dll
+/home/misa/Documents/hngiap/cache-test/cachetest_backend/obj/Debug/netcoreapp2.2/cachetest_backend.pdb
