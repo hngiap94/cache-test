@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "/home/misa/Documents/hngiap/cache-test/cachetest_backend/cachetest_backend.csproj": {}
+    "/home/hngiap/Documents/cache-test/cachetest_backend/cachetest_backend.csproj": {}
   },
   "projects": {
-    "/home/misa/Documents/hngiap/cache-test/cachetest_backend/cachetest_backend.csproj": {
+    "/home/hngiap/Documents/cache-test/cachetest_backend/cachetest_backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/misa/Documents/hngiap/cache-test/cachetest_backend/cachetest_backend.csproj",
+        "projectUniqueName": "/home/hngiap/Documents/cache-test/cachetest_backend/cachetest_backend.csproj",
         "projectName": "cachetest_backend",
-        "projectPath": "/home/misa/Documents/hngiap/cache-test/cachetest_backend/cachetest_backend.csproj",
-        "packagesPath": "/home/misa/.nuget/packages/",
-        "outputPath": "/home/misa/Documents/hngiap/cache-test/cachetest_backend/obj/",
+        "projectPath": "/home/hngiap/Documents/cache-test/cachetest_backend/cachetest_backend.csproj",
+        "packagesPath": "/home/hngiap/.nuget/packages/",
+        "outputPath": "/home/hngiap/Documents/cache-test/cachetest_backend/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/home/misa/.nuget/NuGet/NuGet.Config"
+          "/home/hngiap/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
@@ -55,6 +55,10 @@
               "target": "Package",
               "version": "[2.2.0, )",
               "autoReferenced": true
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.8.1, )"
             }
           },
           "imports": [

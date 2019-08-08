@@ -1,8 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "/home/misa/.dotnet/store/|arch|/|tfm|",
-      "/home/misa/.nuget/packages",
+      "/home/hngiap/.dotnet/store/|arch|/|tfm|",
+      "/home/hngiap/.nuget/packages",
       "/usr/share/dotnet/sdk/NuGetFallbackFolder"
     ]
   }
