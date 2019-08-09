@@ -1,37 +1,49 @@
 <template>
-<div>
-  <div>Home</div>
-  <p>{{books}}</p>
-</div>
-  
+  <div>
+    <div>Home</div>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
+import cacheManagement from "@/cache/cacheManagement.js";
 export default {
   name: "home",
   components: {},
+  mounted() {
+    debugger;
+  },
   methods: {
-    getAll() {
+    getAllData() {
+      let me = this,
+        data = null;
+      if (cacheManagement.isCached()) {
+        data = cacheManagement.getCacheItem(me.entityName);
+      } else {
+        data = me.callAPI();
+      }
+    },
+    callAPI() {
+      let me = this,
+        data = null;
       axios
-        .get(`http://localhost:5000/api/books`)
+        .get(me.baseURL + me.entityName)
         .then(response => {
           // JSON responses are automatically parsed.
-          this.books = response.data;
+          data = response.data;
+          cacheManagement.cacheItem(me.entityName, data);
+          return data;
         })
         .catch(e => {
-          this.errors.push(e);
+          debugger;
         });
     }
   },
   data() {
     return {
-      books: [],
-      errors: []
+      entityName: "accountobject",
+      baseURL: "http://5d4d377404ba7100147039cc.mockapi.io/api/"
     };
-  },
-  created() {
-    this.getAll();
   }
 };
 </script>
