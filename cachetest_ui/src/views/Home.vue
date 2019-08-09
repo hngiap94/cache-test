@@ -10,14 +10,12 @@ import cacheManagement from "@/cache/cacheManagement.js";
 export default {
   name: "home",
   components: {},
-  mounted() {
-    debugger;
-  },
+  mounted() {},
   methods: {
     getAllData() {
       let me = this,
         data = null;
-      if (cacheManagement.isCached()) {
+      if (cacheManagement.isCached(me.entityName)) {
         data = cacheManagement.getCacheItem(me.entityName);
       } else {
         data = me.callAPI();
