@@ -1,6 +1,7 @@
 <template>
   <div>
     <div>Home</div>
+    <button @click="clickBtn">Click me</button>
   </div>
 </template>
 
@@ -12,6 +13,10 @@ export default {
   components: {},
   mounted() {},
   methods: {
+    clickBtn() {
+      let me = this;
+      this.getAllData();
+    },
     getAllData() {
       let me = this,
         data = null;
@@ -29,11 +34,11 @@ export default {
         .then(response => {
           // JSON responses are automatically parsed.
           data = response.data;
-          cacheManagement.cacheItem(me.entityName, data);
+          cacheManagement.setCacheItem(me.entityName, data, 20*1000);
           return data;
         })
         .catch(e => {
-          debugger;
+          console.log(e);
         });
     }
   },

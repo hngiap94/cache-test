@@ -1,89 +1,77 @@
-export default class cacheManagement {
-    cachePrefix = "mscache-";
-    cacheSufix = "-cacheexpiration";
-    expTime = null;
-    reloadTime = null;
-  
-    /**
-     * Kiểm tra nếu có thể sử dụng localStorage
-     */
-    isSupportStorage() {
-      return true;
+// TODO: Không sử dụng JSON.stringify nếu value là string
+// TODO: Viết hàm init cache trong đó có keyPrefix;
+function initCache(options) {
+  let me = this;
+  if (options) {
+    for (let option in options) {
+      me[option] = options[option];
     }
-    /**
-     * Kiểm tra nếu storage bị đầy
-     */
-    isOutOfSpace() {
+  }
+}
+
+function setItem(entityName, value) {
+  let me = this;
+  localStorage.removeItem(me.keyPrefix + entityName);
+  localStorage.setItem(me.keyPrefix + entityName, value);
+}
+
+function getItem(entityName) {
+  let me = this;
+  return localStorage.getItem(me.keyPrefix + entityName);
+}
+
+function removeItem(entityName) {
+  let me = this;
+  localStorage.removeItem(me.keyPrefix + entityName);
+}
+
+function isCached(entityName) {
+  try {
+    // TODO: Kiểm tra nếu item quá hạn thì xóa đi, return false
+    let item = getItem(entityName);
+    if (item !== null) {
+      return true;
+    } else {
       return false;
     }
-  
-    /**
-     * Kiểm tra nếu trình duyệt hỗ trợ JSON
-     */
-    isSupportJSON() {
-      return true;
-    }
-  
-    /**
-     * Trả về giá trị key cho item có thời hạn
-     * @param {String} key
-     */
-    getExpirationKey(key) {
-      return key + this.cacheSufix;
-    }
-  
-    getItem(key) {
-      return localStorage.getItem(this.cachePrefix + key);
-    }
-    setItem(key, value) {
-      localStorage.removeItem(this.cachePrefix + key);
-      localStorage.setItem(this.cachePrefix + key, value);
-    }
-    removeItem(key) {
-      localStorage.removeItem(this.cachePrefix + key);
-    }
-  
-    setCacheItem(key, value, time) {
-      if (!this.isSupportStorage()) return false;
-      if (!this.isSupportJSON()) return false;
-  
-      try {
-        value = JSON.stringify(value);
-      } catch (e) {
-        return false;
-      }
-  
-      try {
-        this.setItem(key, value);
-      } catch (e) {
-        // TODO: Kiểm tra nếu storage đầy thì xóa bớt các item cũ đi
-        console.log(e);
-      }
-    }
-    getCacheItem(key) {
-      if (!this.isSupportStorage()) return false;
-      if (!this.isSupportJSON()) return false;
-  
-      // TODO: Nếu item đã hết hạn, remove và gọi lại api
-      // if (flushExpiredItem(key)) {
-      // }
-  
-      let value = getItem(key);
-      try {
-        return JSON.parse(value);
-      } catch (e) {
-        console.log(e);
-        return false;
-      }
-    }
-  
-    removeCacheItem(key) {
-      if (!this.isSupportStorage()) return;
-      this.removeItem(key);
-    }
-  
-    removeAllItems() {}
-  
-    removeExpiredItem() {}
+  } catch (e) {
+    console.log(e);
+    return false;
   }
-  
+}
+
+function setCacheItem(entityName, value, expTime) {
+  // TODO: Kiểm tra support storage
+  // TODO: Kiểm tra support JSON
+
+  // Nếu undefined, chuyển thành null
+  if (value === undefined) {
+    value = null;
+  }
+  value = JSON.stringify(value);
+  try {
+    setItem(entityName, value);
+  } catch (e) {
+    // TODO: Kiểm tra nếu storage đầy thì xóa bớt cache cũ đi
+    console.log(e);
+    return false;
+  }
+
+  if (expTime) {
+    // Lưu thông tin về thời gian hết hạn cache
+    // setItem(...)
+  } else {
+    // Xóa thông tin cache trong trường hợp trước đó có set thời gian
+    // removeItem(...)
+  }
+  return true;
+}
+
+function getCacheItem(entityName) {}
+var cacheManagement = {
+  keyPrefix: "ms-cache",
+  initCache: initCache,
+  getItem: getItem,
+  isCached: isCached
+};
+export default cacheManagement;
