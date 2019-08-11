@@ -17,20 +17,34 @@ class cacheManagement {
     }
   }
 
+  /**
+   * Kiểm tra nếu trình duyệt hỗ trợ localStorage
+   */
   isSupportStorage() {
-    // TODO: Kiểm tra nếu trình duyệt hỗ trợ localStorage
+    return (
+      typeof localStorage !== undefined &&
+      "setItem" in localStorage &&
+      !!localStorage.setItem
+    );
   }
 
   isSupportJSON() {
     return window.JSON != null;
   }
 
-  isOutOfSpace() {
+  isOutOfSpace(e) {
     // TODO: Kiểm tra nếu storage bị đầy
+    return (
+      e &&
+      (e.name === "QUOTA_EXCEEDED_ERR" ||
+        e.name === "NS_ERROR_DOM_QUOTA_REACHED" ||
+        e.name === "QuotaExceededError")
+    );
   }
 
   isStorageAvailable() {
     // TODO: Kiểm tra nếu storage sẵn sàng để sử dụng, bao gồm hỗ trợ localStorage, JSON, có thể thêm 1 item
+    
   }
 
   isCacheExpired(expTime) {

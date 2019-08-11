@@ -32,7 +32,6 @@ export default {
       axios
         .get(me.baseURL + me.entityName)
         .then(response => {
-          // JSON responses are automatically parsed.
           data = response.data;
           cacheManagement.setCacheItem(me.entityName, data, 20*1000);
           return data;
