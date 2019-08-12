@@ -151,16 +151,20 @@ class cacheManagementV2 {
    */
   async getItemFromAPI() {
     let me = this;
-    return await axios
-      .get(me.baseURL + me.entityName)
-      .then(res => {
-        me.setCacheItem(res.data);
+    try {
+      let res = await axios.get(me.baseURL + me.entityName);
+      if (res) {
+        // me.setCacheItem(res.data);
+        // await setTimeout(function(){
+        //   console.log('API')
+        // }, 5000);
         return res.data;
-      })
-      .catch(e => {
-        console.log(e);
-        return null;
-      });
+      }
+      return null;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
   }
 
   /**
@@ -200,14 +204,14 @@ class cacheManagementV2 {
     }
 
     // Nếu storage không khả dụng, chỉ gọi API lấy dữ liệu
+    // TODO: Kiểm tra lại luồng async
+    // TODO: chuyển hàm thành async và trả về một promise
     if (me.storageAvailable) {
       let value = me.getItem(me.entityName);
       if (value) {
         return JSON.parse(value);
       } else {
-        me.getItemFromAPI().then(data => {
-          return data;
-        });
+        return me.getItemFromAPI();
       }
     } else {
       return me.getItemFromAPI();

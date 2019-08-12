@@ -24,9 +24,14 @@ export default {
         entityName: "accountobject"
       });
     },
+    // async getItem(){
+    //   let data = await cacheManagementV2.getCacheItem();
+    //   console.log(data);
+    // }
     getItem() {
-      let data = cacheManagementV2.getCacheItem();
-      console.log(data);
+      let data = cacheManagementV2.getCacheItem().then(res => {
+        console.log(res);
+      });
     }
   }
 };
