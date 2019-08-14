@@ -34,14 +34,19 @@ class cacheManagementV2 {
     if (!me.isSuccessInitialized()) {
       return;
     }
+    me.isCacheInitialized = true;
 
     // Tự động gọi API nếu storage khả dụng và có cài đặt thời gian
     if (me.isStorageAvailable() && me.timeInterval) {
       setInterval(function() {
-        let value = me.getItemFromAPI();
-        if (value) {
-          me.setCacheItem(value);
-        }
+        me.getItemFromAPI()
+          .then(res => {
+            me.setCacheItem(res);
+            console.log("set interval:", res);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }, me.timeInterval);
     }
   }
@@ -52,7 +57,6 @@ class cacheManagementV2 {
   isSuccessInitialized() {
     let me = this;
     if (me.baseURL && me.entityName) {
-      me.isCacheInitialized = true;
       return true;
     } else {
       return false;
@@ -146,6 +150,26 @@ class cacheManagementV2 {
     localStorage.removeItem(me.keyPrefix + key);
   }
 
+  key(n) {
+    let me = this;
+    return localStorage.key(n);
+  }
+
+  keys() {
+    let me = this,
+      length = localStorage.length,
+      keys = [];
+
+    for (let i = 0; i < length; i++) {
+      let itemKey = me.key(i); // Lấy ra key của từng item
+      if (itemKey.indexOf(me.keyPrefix) === 0) {
+        keys.push(itemKey.substring(me.keyPrefix.length));
+      }
+    }
+
+    return keys;
+  }
+
   /**
    * Gọi API lấy dữ liệu
    */
@@ -154,13 +178,9 @@ class cacheManagementV2 {
     try {
       let res = await axios.get(me.baseURL + me.entityName);
       if (res) {
-        // me.setCacheItem(res.data);
-        // await setTimeout(function(){
-        //   console.log('API')
-        // }, 5000);
+        me.setCacheItem(res.data);
         return res.data;
       }
-      return null;
     } catch (e) {
       console.log(e);
       return null;
@@ -173,15 +193,49 @@ class cacheManagementV2 {
    * @param {*} value
    */
   setCacheItem(value) {
-    let me = this;
-    value = JSON.stringify(value);
+    let me = this,
+      now = new Date(),
+      currentTime = now.getTime();
+    let item = {
+      data: value,
+      timestamp: currentTime
+    };
+    item = JSON.stringify(item);
 
     try {
-      me.setItem(me.entityName, value);
+      me.setItem(me.entityName, item);
     } catch (e) {
-      // TODO: Kiểm tra nếu storage đầy thì xóa bớt cache cũ đi
       if (me.isOutOfSpace(e)) {
-        console.log("Đầy bộ nhớ localStorage");
+        let storedItems = [],
+          itemKeys = me.keys();
+        for (let key in itemKeys) {
+          let item = me.getItem(key);
+          storedItems.push({
+            key: key,
+            size: (item || "").length,
+            timestamp: item.timestamp
+          });
+        }
+        storedItems.sort(function(firstItem, secondItem) {
+          return secondItem.timestamp - firstItem.timestamp;
+        });
+
+        let targetSize = (value || "").length;
+
+        while (storedItems.length && targetSize > 0) {
+          let storedItem = storedItems.pop();
+          console.log(
+            `Cache đầy, đang tiến hành xóa item với key là: '${key}'`
+          );
+          me.removeItem(key);
+          targetSize -= storedItem.size;
+        }
+
+        try {
+          me.setItem(me.entityName, value);
+        } catch (e) {
+          console.log("Không thể thêm item, có thể do kích thước quá lớn!!!");
+        }
       } else {
         console.log("Không thể thêm item:", e);
       }
@@ -204,17 +258,22 @@ class cacheManagementV2 {
     }
 
     // Nếu storage không khả dụng, chỉ gọi API lấy dữ liệu
-    // TODO: Kiểm tra lại luồng async
-    // TODO: chuyển hàm thành async và trả về một promise
     if (me.storageAvailable) {
-      let value = me.getItem(me.entityName);
-      if (value) {
-        return JSON.parse(value);
+      let item = me.getItem(me.entityName);
+      if (item) {
+        item = JSON.parse(item);
+        console.log("cached:", item.data);
+        // return item.data;
       } else {
-        return me.getItemFromAPI();
+        me.getItemFromAPI().then(res => {
+          console.log("uncached:", res);
+          // return res;
+        });
       }
     } else {
-      return me.getItemFromAPI();
+      // me.getItemFromAPI().then(res => {
+      //   return res;
+      // });
     }
   }
 }

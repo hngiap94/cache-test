@@ -7,31 +7,36 @@
   </div>
 </template>
 <script>
-import cacheManagementV2 from "@/cache/cacheManagementV2.js";
+import axios from "axios";
+import cacheManagement from "@/cache/cacheManagementV2.js";
 export default {
   methods: {
-    testFnc() {
-      console.log(cacheManagementV2.keyPrefix);
-      console.log(cacheManagementV2.baseURL);
-      console.log(cacheManagementV2.entityName);
-      console.log(cacheManagementV2.timeInterval);
-      console.log(cacheManagementV2.storageAvailable);
-      console.log(cacheManagementV2.isCacheInitialized);
+    async testFnc() {
+      console.log(cacheManagement.keyPrefix);
+      console.log(cacheManagement.baseURL);
+      console.log(cacheManagement.entityName);
+      console.log(cacheManagement.timeInterval);
+      console.log(cacheManagement.storageAvailable);
+      console.log(cacheManagement.isCacheInitialized);
     },
     initCache() {
-      cacheManagementV2.initCache({
+      cacheManagement.initCache({
         baseURL: "http://5d4d377404ba7100147039cc.mockapi.io/api/",
-        entityName: "accountobject"
+        entityName: "accountobject",
+        timeInterval: 20000
       });
     },
     // async getItem(){
-    //   let data = await cacheManagementV2.getCacheItem();
+    //   let data = await cacheManagement.getCacheItem();
     //   console.log(data);
     // }
+    // getItem() {
+    //   let data = cacheManagement.getCacheItem().then(res => {
+    //     console.log(res);
+    //   });
+    // }
     getItem() {
-      let data = cacheManagementV2.getCacheItem().then(res => {
-        console.log(res);
-      });
+      cacheManagement.getCacheItem();
     }
   }
 };
