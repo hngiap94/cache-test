@@ -8,35 +8,23 @@
 </template>
 <script>
 import axios from "axios";
-import cacheManagement from "@/cache/cacheManagementV2.js";
+import localStorageCache from "@/cache/localStorageCache.js";
+import inMemmoryCache from "@/cache/inMemmoryCache.js";
 export default {
   methods: {
     async testFnc() {
-      console.log(cacheManagement.keyPrefix);
-      console.log(cacheManagement.baseURL);
-      console.log(cacheManagement.entityName);
-      console.log(cacheManagement.timeInterval);
-      console.log(cacheManagement.storageAvailable);
-      console.log(cacheManagement.isCacheInitialized);
+      
     },
     initCache() {
-      cacheManagement.initCache({
-        baseURL: "http://5d4d377404ba7100147039cc.mockapi.io/api/",
-        entityName: "accountobject",
-        timeInterval: 20000
-      });
+      // localStorageCache.initCache({
+      //   baseURL: "http://5d4d377404ba7100147039cc.mockapi.io/api/",
+      //   entityName: "accountobject",
+      //   timeInterval: 20000
+      // });
     },
-    // async getItem(){
-    //   let data = await cacheManagement.getCacheItem();
-    //   console.log(data);
-    // }
-    // getItem() {
-    //   let data = cacheManagement.getCacheItem().then(res => {
-    //     console.log(res);
-    //   });
-    // }
     getItem() {
-      cacheManagement.getCacheItem();
+      let data = inMemmoryCache.getCacheItem('accountobject');
+      // localStorageCache.getCacheItem();
     }
   }
 };

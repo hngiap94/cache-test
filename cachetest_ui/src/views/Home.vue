@@ -7,7 +7,7 @@
 
 <script>
 import axios from "axios";
-import cacheManagement from "@/cache/cacheManagement.js";
+import inMemmoryCache from "@/cache/inMemmoryCache.js";
 export default {
   name: "home",
   components: {},
@@ -15,31 +15,8 @@ export default {
   methods: {
     clickBtn() {
       let me = this;
-      this.getAllData();
+      me.getAllData();
     },
-    getAllData() {
-      let me = this,
-        data = null;
-      if (cacheManagement.isCached(me.entityName)) {
-        data = cacheManagement.getCacheItem(me.entityName);
-      } else {
-        data = me.callAPI();
-      }
-    },
-    callAPI() {
-      let me = this,
-        data = null;
-      axios
-        .get(me.baseURL + me.entityName)
-        .then(response => {
-          data = response.data;
-          cacheManagement.setCacheItem(me.entityName, data, 20*1000);
-          return data;
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    }
   },
   data() {
     return {
